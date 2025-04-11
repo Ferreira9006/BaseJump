@@ -1,4 +1,4 @@
-import 'package:number_converter_app/functions.dart';
+import '../utils/functions.dart';
 
 class Conversion {
   final String input;
