@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'views/spash_screen.dart';
 
 void main() {
-  runApp(const number_converter_app());
+  runApp(const NumberConverterApp());
 }
 
-class number_converter_app extends StatelessWidget {
-  const number_converter_app({super.key});
+class NumberConverterApp extends StatelessWidget {
+  const NumberConverterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
