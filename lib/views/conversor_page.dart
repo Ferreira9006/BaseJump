@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/conversion.dart';
 import '../utils/functions.dart';
 import '../widgets/dropdown_button.dart';
+
 class ConverterView extends StatefulWidget {
   const ConverterView({super.key});
 
@@ -10,16 +11,22 @@ class ConverterView extends StatefulWidget {
 }
 
 class _ConverterView extends State<ConverterView> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController valueController = TextEditingController();
-  List<Conversion> pastConversions = [];
+  final _formKey = GlobalKey<FormState>(); // Key para validar o formulário
+  final TextEditingController valueController =
+      TextEditingController(); // Controller do Input
+  List<Conversion> pastConversions =
+      []; // Lista onde guarda todas as conversões feitas
   int convertFromBase = 10; // Default values para evitar erros
   int convertToBase = 2; // Default values para evitar erros
   String conversionResult = ""; // Resultado da conversão
   String resultText = ""; // Texto a ser exibido na tela
 
+  Conversion? lastDeleted;
+  int? lastDeletedIndex;
+
   void handleConversion() {
-    if (_formKey.currentState!.validate()) { // Verifica se o formulário é válido
+    if (_formKey.currentState!.validate()) {
+      // Verifica se o formulário é válido
       String input = valueController.text.trim(); // Remove espaços em branco
 
       conversionResult = convertNumber(
@@ -38,7 +45,7 @@ class _ConverterView extends State<ConverterView> {
       setState(() {
         pastConversions.insert(0, conversion);
         resultText =
-        '$input in ${convertBaseIdToName(convertFromBase)} is $conversionResult in ${convertBaseIdToName(convertToBase)}';
+            '$input in ${convertBaseIdToName(convertFromBase)} is $conversionResult in ${convertBaseIdToName(convertToBase)}';
       }); // Atualiza o estado da tela com o resultado da conversão
     }
   }
@@ -50,8 +57,39 @@ class _ConverterView extends State<ConverterView> {
       convertFromBase = 10;
       convertToBase = 2;
       valueController.clear();
+    });
+  }
+
+  void deleteConversion(int index) {
+    setState(() {
+      lastDeleted = pastConversions[index];
+      lastDeletedIndex = index;
+      pastConversions.removeAt(index);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Conversão removida.'),
+        action: SnackBarAction(
+          label: 'Desfazer',
+          onPressed: () {
+            if (lastDeleted != null && lastDeletedIndex != null) {
+              setState(() {
+                pastConversions.insert(lastDeletedIndex!, lastDeleted!);
+              });
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  void clearHistory() {
+    setState(() {
       pastConversions.clear();
-    }); // Limpa os campos de entrada e o histórico de conversões
+      lastDeleted = null;
+      lastDeletedIndex = null;
+    });
   }
 
   @override
@@ -63,7 +101,7 @@ class _ConverterView extends State<ConverterView> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: clearInputs,
-            tooltip: 'Clear', // Tooltip para o botão de limpar 
+            tooltip: 'Clear', // Tooltip para o botão de limpar
           ),
         ],
       ),
@@ -116,7 +154,8 @@ class _ConverterView extends State<ConverterView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text("Convert"),
-                      onPressed: handleConversion, // Chama a função de conversão
+                      onPressed:
+                          handleConversion, // Chama a função de conversão
                     ),
                   ),
                 ],
@@ -160,17 +199,38 @@ class _ConverterView extends State<ConverterView> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: clearHistory,
+                  icon: const Icon(Icons.delete_sweep, color: Colors.white),
+                  label: const Text(
+                    "Limpar tudo",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+
               Expanded(
                 child: ListView.builder(
                   itemCount: pastConversions.length,
                   itemBuilder:
                       (context, index) => Center(
-                    child: Text(
-                      pastConversions[index].toString(),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
+                        child: ListTile(
+                          title: Text(
+                            pastConversions[index].toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.redAccent,
+                            ),
+                            onPressed: () => deleteConversion(index),
+                          ),
+                        ),
+                      ),
                 ),
               ),
             ],
