@@ -1,48 +1,80 @@
-📱 Number Converter App
+# 🧮 BaseJump
 
-O Number Converter App é um aplicativo Flutter simples e intuitivo que permite converter números entre diferentes sistemas de numeração! 🔢
+**BaseJump** é uma aplicação Flutter simples, intuitiva e moderna que permite converter números entre diferentes sistemas de numeração: Binário, Octal, Decimal e Hexadecimal. Ideal para estudantes, programadores ou qualquer pessoa que necessite de converter valores rapidamente.
 
-Com suporte para Decimal (10), Binário (2), Octal (8) e Hexadecimal (16), o app é perfeito para estudantes, desenvolvedores ou qualquer pessoa que precise realizar conversões de forma rápida e fácil. 🚀
-🚀 Funcionalidades
+![BaseJump Logo](assets/images/logo.png)
 
-    🔄 Conversão entre diferentes bases: Converta números entre Decimal, Binário, Octal e Hexadecimal de forma instantânea!
+---
 
-    ✅ Validação de entrada: O app valida a entrada do usuário para garantir que os números sejam válidos para a base escolhida.
+## 🚀 Funcionalidades
 
-    📝 Histórico de conversões: Acompanhe todas as conversões feitas no app em uma lista prática.
+- 🔄 Conversão entre bases: Converte entre Binário (2), Octal (8), Decimal (10) e Hexadecimal (16).
+- ✅ Validação de entrada: Garante que os números inseridos são válidos para a base escolhida.
+- 📝 Histórico de conversões: Registo automático das conversões realizadas.
+- 💡 Interface moderna e responsiva: Layout limpo.
+- 🧩 Componentes reutilizáveis: Código organizado e modular com `widgets`, `models` e `funções`.
+- ♻️ Botão para limpar campos e histórico de forma imediata.
+- ⏳ Ecrã inicial com logótipo (Splash Screen) com carregamento antes da entrada na app. *(opcional)*
 
-    💡 Interface simples e amigável: Design clean com Dropdowns para selecionar bases e um campo para inserir números.
+---
 
-    ⏳ Tela inicial de carregamento: Tela de splash com o logo do app antes de acessar a funcionalidade principal.
+## 📄 Como utilizar
 
-📱 Estrutura do App
+1. Introduz um número no campo de texto.
+2. Seleciona a base de origem e a base de destino através dos menus suspensos.
+3. Clica no botão “Converter”.
+4. Visualiza o resultado no cartão apresentado e consulta o histórico por baixo.
 
-    Tela Inicial (SplashScreen): Exibe a logo do app e carrega o conteúdo após 5 segundos.
+Para limpar os campos e o histórico, usa o ícone de “refresh” no canto superior direito da aplicação.
 
-    Tela de Conversão (ConverterView): Onde você insere o número e visualiza a conversão entre bases.
+---
 
-    Funções de Conversão: Contém a lógica que converte entre bases e valida entradas de forma eficiente.
+## 📂 Estrutura da Aplicação
 
-    Dropdowns de Seleção de Base: Escolha rapidamente entre Decimal, Binário, Octal ou Hexadecimal.
+- `SplashScreen` *(opcional)*: Mostra a imagem/logo da app durante alguns segundos.
+- `ConverterView`: Ecrã principal com formulário de conversão e histórico.
+- `functions.dart`: Contém a lógica de conversão e validação de valores.
+- `conversion.dart`: Modelo de dados para representar uma conversão.
+- `dropdown_button.dart`: Widget reutilizável para seleção de bases numéricas.
+- `assets/images/logo.png`: Logótipo da aplicação.
 
-🛠️ Tecnologias Utilizadas
+---
 
-    Flutter: Framework moderno para desenvolvimento de apps móveis.
+## 🛠️ Tecnologias Utilizadas
 
-    Dart: Linguagem usada para implementar a lógica do app.
+- **Flutter**: Framework para desenvolvimento multiplataforma.
+- **Dart**: Linguagem utilizada para lógica e UI.
+- **Material Design**: Sistema de design que garante uma experiência visual agradável.
 
-    Material Design: Design visual moderno para uma experiência fluida.
+---
 
-🔧 Como Rodar o Projeto
+## 🔧 Como correr o projeto
 
-    Clone este repositório para o seu computador.
+1. Clona este repositório:
+   ```bash
+   git clone https://github.com/o-teu-utilizador/basejump.git
+   cd basejump
+   ```
 
-    Abra o projeto no seu editor de código (VS Code, Android Studio, etc.).
+2. Instala as dependências:
+   ```bash
+   flutter pub get
+   ```
 
-    Instale as dependências: Execute flutter pub get no terminal.
+3. Corre a aplicação:
+   ```bash
+   flutter run
+   ```
 
-    Rode o projeto: Execute flutter run para ver o app em ação.
+---
 
-🌟 Conclusão
+## 📌 Notas
 
-Com o Number Converter App, você pode facilmente converter números entre diferentes bases! Seja para estudo, trabalho ou apenas para curiosidade, este app oferece tudo o que você precisa de forma rápida e eficiente. 💪
+- Apenas são aceites números válidos de acordo com a base selecionada.
+- O histórico não é persistente — será limpo ao fechar ou reiniciar a app.
+
+---
+
+## ✨ Conclusão
+
+Com o **BaseJump**, podes converter rapidamente números entre diferentes sistemas numéricos de forma simples e eficaz. Seja para fins académicos, profissionais ou apenas por curiosidade, esta aplicação oferece uma solução prática e agradável de usar.
