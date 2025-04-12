@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:number_converter_app/utils/constants.dart';
+import 'package:number_converter_app/constants/constants.dart';
 import 'package:number_converter_app/widgets/conversion_result.dart';
-import '../models/conversion.dart';
-import '../utils/functions.dart';
-import '../widgets/dropdown_button.dart';
+import 'package:number_converter_app/models/conversion.dart';
+import 'package:number_converter_app/utils/functions.dart';
+import 'package:number_converter_app/widgets/dropdown_button.dart';
 
 List<Conversion> pastConversions =
     []; // Lista onde guarda todas as conversões feitas
@@ -13,6 +13,11 @@ String conversionResult = ""; // Resultado da conversão
 String resultText = ""; // Texto a ser exibido na tela
 Conversion? lastDeleted;
 int? lastDeletedIndex;
+
+void resetBases() {
+  convertFromBase = baseDecimal;
+  convertToBase = baseBinary;
+}
 
 class ConverterView extends StatefulWidget {
   const ConverterView({super.key});
@@ -62,6 +67,14 @@ class _ConverterView extends State<ConverterView> {
     });
   }
 
+  void clearHistory() {
+    setState(() {
+      pastConversions.clear();
+      lastDeleted = null;
+      lastDeletedIndex = null;
+    });
+  }
+
   void deleteConversion(int index) {
     setState(() {
       lastDeleted = pastConversions[index];
@@ -84,14 +97,6 @@ class _ConverterView extends State<ConverterView> {
         ),
       ),
     );
-  }
-
-  void clearHistory() {
-    setState(() {
-      pastConversions.clear();
-      lastDeleted = null;
-      lastDeletedIndex = null;
-    });
   }
 
   @override
