@@ -5,20 +5,24 @@ import 'package:number_converter_app/models/conversion.dart';
 import 'package:number_converter_app/utils/functions.dart';
 import 'package:number_converter_app/widgets/dropdown_button.dart';
 
-List<Conversion> pastConversions =
-    []; // Lista onde guarda todas as conversões feitas
-int convertFromBase = baseDecimal; // Default values para evitar erros
-int convertToBase = baseBinary; // Default values para evitar erros
-String conversionResult = ""; // Resultado da conversão
-String resultText = ""; // Texto a ser exibido na tela
+/// Lista que guarda todas as conversões feitas (histórico).
+List<Conversion> pastConversions = [];
+
+/// Bases padrão selecionadas por defeito (decimal → binário).
+int convertFromBase = baseDecimal;
+int convertToBase = baseBinary;
+
+/// Texto do resultado da conversão atual.
+String conversionResult = "";
+
+/// Texto formatado a ser exibido no Card de resultado.
+String resultText = "";
+
+/// Guarda a última conversão eliminada (para permitir desfazer).
 Conversion? lastDeleted;
 int? lastDeletedIndex;
 
-void resetBases() {
-  convertFromBase = baseDecimal;
-  convertToBase = baseBinary;
-}
-
+/// Ecrã principal da aplicação que permite converter entre diferentes bases.
 class ConverterView extends StatefulWidget {
   const ConverterView({super.key});
 
@@ -27,36 +31,39 @@ class ConverterView extends StatefulWidget {
 }
 
 class _ConverterView extends State<ConverterView> {
-  final _formKey = GlobalKey<FormState>(); // Key para validar o formulário
-  final TextEditingController valueController =
-      TextEditingController(); // Controller do Input
+  /// Chave usada para validar o formulário.
+  final _formKey = GlobalKey<FormState>();
 
+  /// Controlador do campo de texto.
+  final TextEditingController valueController = TextEditingController();
+
+  /// Executa a conversão e atualiza o estado.
   void handleConversion() {
     if (_formKey.currentState!.validate()) {
-      // Verifica se o formulário é válido
-      String input = valueController.text.trim(); // Remove espaços em branco
+      String input = valueController.text.trim();
 
       conversionResult = convertNumber(
-        value: valueController.text, // Valor a ser convertido
-        convertFromBase: convertFromBase, // Base de origem
+        value: input,
+        convertFromBase: convertFromBase,
         convertToBase: convertToBase,
-      ); // Realiza a conversão
+      );
 
       final conversion = Conversion(
         input: input,
         fromBase: convertFromBase,
         toBase: convertToBase,
         result: conversionResult,
-      ); // Cria um objeto de conversão
+      );
 
       setState(() {
         pastConversions.insert(0, conversion);
         resultText =
             '$input in ${convertBaseIdToName(convertFromBase)} is $conversionResult in ${convertBaseIdToName(convertToBase)}';
-      }); // Atualiza o estado da tela com o resultado da conversão
+      });
     }
   }
 
+  /// Limpa os campos e reinicia as bases para os valores padrão.
   void clearInputs() {
     setState(() {
       conversionResult = "";
@@ -67,6 +74,7 @@ class _ConverterView extends State<ConverterView> {
     });
   }
 
+  /// Limpa todo o histórico de conversões.
   void clearHistory() {
     setState(() {
       pastConversions.clear();
@@ -75,6 +83,7 @@ class _ConverterView extends State<ConverterView> {
     });
   }
 
+  /// Remove uma conversão específica e permite desfazer a ação.
   void deleteConversion(int index) {
     setState(() {
       lastDeleted = pastConversions[index];
@@ -84,7 +93,7 @@ class _ConverterView extends State<ConverterView> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Conversão removida.'),
+        content: const Text('Conversão removida.'),
         action: SnackBarAction(
           label: 'Desfazer',
           onPressed: () {
@@ -99,6 +108,7 @@ class _ConverterView extends State<ConverterView> {
     );
   }
 
+  /// Interface visual do ecrã de conversão.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +118,7 @@ class _ConverterView extends State<ConverterView> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: clearInputs,
-            tooltip: 'Clear', // Tooltip para o botão de limpar
+            tooltip: 'Limpar campos',
           ),
         ],
       ),
@@ -119,27 +129,31 @@ class _ConverterView extends State<ConverterView> {
           children: [
             Image.asset('assets/images/logo.png', height: 200),
             const SizedBox(height: 10),
+
+            // Formulário de entrada e seleção de bases
             Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Campo de entrada
                   TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Enter a number',
+                      labelText: 'Insere um número',
                     ),
                     controller: valueController,
                     validator: (value) {
                       if (!validateInput(value, convertFromBase)) {
-                        return 'Invalid number.'; // Mensagem de erro para número inválido
+                        return 'Número inválido para esta base.';
                       }
+                      return null;
                     },
                   ),
-
                   const SizedBox(height: 10),
 
+                  // Dropdowns de seleção de bases
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -156,23 +170,26 @@ class _ConverterView extends State<ConverterView> {
                     ],
                   ),
                   const SizedBox(height: 20),
+
+                  // Botão de conversão
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: Text("Convert"),
-                      onPressed:
-                          handleConversion, // Chama a função de conversão
+                      child: const Text("Converter"),
+                      onPressed: handleConversion,
                     ),
                   ),
                 ],
               ),
             ),
 
+            // Card com o resultado
             if (conversionResult.isNotEmpty) ...[
               const SizedBox(height: 20),
               ConversionResultCard(resultText: resultText),
             ],
 
+            // Histórico de conversões
             if (pastConversions.isNotEmpty) ...[
               const Divider(thickness: 1.5, color: Colors.white, height: 80),
               const Text(
@@ -181,6 +198,8 @@ class _ConverterView extends State<ConverterView> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
+
+              // Botão para limpar o histórico
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton.icon(
@@ -193,6 +212,7 @@ class _ConverterView extends State<ConverterView> {
                 ),
               ),
 
+              // Lista de conversões
               Expanded(
                 child: ListView.builder(
                   itemCount: pastConversions.length,
