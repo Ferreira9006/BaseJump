@@ -5,21 +5,21 @@ import 'conversor_page.dart';
 
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key}); // Constructor
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState(); // State class for SplashScreen
 }
 
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const ConverterView()),
+  void initState() { // inicializa o estado do widget
+    super.initState(); // chama o método initState da superclasse
+    Future.delayed(const Duration(seconds: 5), () { // delay de 5 segundos
+      Navigator.pushReplacement( // navega para a próxima tela 
+        context, // BuildContext
+        MaterialPageRoute(builder: (context) => const ConverterView()), // tela de conversão
       );
     });
   }

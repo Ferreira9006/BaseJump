@@ -15,31 +15,31 @@ class _ConverterView extends State<ConverterView> {
   List<Conversion> pastConversions = [];
   int convertFromBase = 10; // Default values para evitar erros
   int convertToBase = 2; // Default values para evitar erros
-  String conversionResult = "";
-  String resultText = "";
+  String conversionResult = ""; // Resultado da conversão
+  String resultText = ""; // Texto a ser exibido na tela
 
   void handleConversion() {
-    if (_formKey.currentState!.validate()) {
-      String input = valueController.text.trim();
+    if (_formKey.currentState!.validate()) { // Verifica se o formulário é válido
+      String input = valueController.text.trim(); // Remove espaços em branco
 
       conversionResult = convertNumber(
-        value: valueController.text,
-        convertFromBase: convertFromBase,
+        value: valueController.text, // Valor a ser convertido
+        convertFromBase: convertFromBase, // Base de origem
         convertToBase: convertToBase,
-      );
+      ); // Realiza a conversão
 
       final conversion = Conversion(
         input: input,
         fromBase: convertFromBase,
         toBase: convertToBase,
         result: conversionResult,
-      );
+      ); // Cria um objeto de conversão
 
       setState(() {
         pastConversions.insert(0, conversion);
         resultText =
         '$input in ${convertBaseIdToName(convertFromBase)} is $conversionResult in ${convertBaseIdToName(convertToBase)}';
-      });
+      }); // Atualiza o estado da tela com o resultado da conversão
     }
   }
 
@@ -51,7 +51,7 @@ class _ConverterView extends State<ConverterView> {
       convertToBase = 2;
       valueController.clear();
       pastConversions.clear();
-    });
+    }); // Limpa os campos de entrada e o histórico de conversões
   }
 
   @override
@@ -63,7 +63,7 @@ class _ConverterView extends State<ConverterView> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: clearInputs,
-            tooltip: 'Clear',
+            tooltip: 'Clear', // Tooltip para o botão de limpar 
           ),
         ],
       ),
@@ -89,7 +89,7 @@ class _ConverterView extends State<ConverterView> {
                     validator: (value) {
                       if (!validateInput(value, convertFromBase)) {
                         resultText = "";
-                        return 'Invalid number.';
+                        return 'Invalid number.'; // Mensagem de erro para número inválido
                       }
                     },
                   ),
@@ -116,7 +116,7 @@ class _ConverterView extends State<ConverterView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text("Convert"),
-                      onPressed: handleConversion,
+                      onPressed: handleConversion, // Chama a função de conversão
                     ),
                   ),
                 ],

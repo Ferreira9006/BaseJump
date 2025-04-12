@@ -23,7 +23,7 @@ class NumberConverterApp extends StatelessWidget {
       ),
 
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const SplashScreen(),  // Set the initial screen to SplashScreen
     );
   }
 }
