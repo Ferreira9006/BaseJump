@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_converter_app/widgets/conversion_result.dart';
 import '../models/conversion.dart';
 import '../utils/functions.dart';
 import '../widgets/dropdown_button.dart';
@@ -126,7 +127,6 @@ class _ConverterView extends State<ConverterView> {
                     controller: valueController,
                     validator: (value) {
                       if (!validateInput(value, convertFromBase)) {
-                        resultText = "";
                         return 'Invalid number.'; // Mensagem de erro para número inválido
                       }
                     },
@@ -162,33 +162,9 @@ class _ConverterView extends State<ConverterView> {
               ),
             ),
 
-            const SizedBox(height: 20),
-
             if (conversionResult.isNotEmpty) ...[
-              Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Result:',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        resultText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              const SizedBox(height: 20),
+              ConversionResultCard(resultText: resultText),
             ],
 
             if (pastConversions.isNotEmpty) ...[
