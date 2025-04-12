@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:number_converter_app/utils/constants.dart';
 import 'package:number_converter_app/widgets/conversion_result.dart';
 import '../models/conversion.dart';
 import '../utils/functions.dart';
 import '../widgets/dropdown_button.dart';
+
+List<Conversion> pastConversions =
+    []; // Lista onde guarda todas as conversões feitas
+int convertFromBase = baseDecimal; // Default values para evitar erros
+int convertToBase = baseBinary; // Default values para evitar erros
+String conversionResult = ""; // Resultado da conversão
+String resultText = ""; // Texto a ser exibido na tela
+Conversion? lastDeleted;
+int? lastDeletedIndex;
 
 class ConverterView extends StatefulWidget {
   const ConverterView({super.key});
@@ -15,15 +25,6 @@ class _ConverterView extends State<ConverterView> {
   final _formKey = GlobalKey<FormState>(); // Key para validar o formulário
   final TextEditingController valueController =
       TextEditingController(); // Controller do Input
-  List<Conversion> pastConversions =
-      []; // Lista onde guarda todas as conversões feitas
-  int convertFromBase = 10; // Default values para evitar erros
-  int convertToBase = 2; // Default values para evitar erros
-  String conversionResult = ""; // Resultado da conversão
-  String resultText = ""; // Texto a ser exibido na tela
-
-  Conversion? lastDeleted;
-  int? lastDeletedIndex;
 
   void handleConversion() {
     if (_formKey.currentState!.validate()) {
@@ -55,8 +56,8 @@ class _ConverterView extends State<ConverterView> {
     setState(() {
       conversionResult = "";
       resultText = "";
-      convertFromBase = 10;
-      convertToBase = 2;
+      convertFromBase = baseDecimal;
+      convertToBase = baseBinary;
       valueController.clear();
     });
   }
