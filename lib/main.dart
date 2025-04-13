@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/spash_screen.dart';
+import 'views/splash_screen.dart';
 
 void main() {
   runApp(const NumberConverterApp());
