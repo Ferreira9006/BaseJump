@@ -175,8 +175,8 @@ class _ConverterView extends State<ConverterView> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: const Text("Converter"),
                       onPressed: handleConversion,
+                      child: const Text("Converter"),
                     ),
                   ),
                 ],

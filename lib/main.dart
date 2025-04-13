@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'views/splash_screen.dart';
+import 'package:number_converter_app/views/splash_screen.dart';
 
 void main() {
-  runApp(const NumberConverterApp());
+  runApp(const BaseJump());
 }
 
-class NumberConverterApp extends StatelessWidget {
-  const NumberConverterApp({super.key});
+class BaseJump extends StatelessWidget {
+  const BaseJump({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,7 @@ class NumberConverterApp extends StatelessWidget {
       ),
 
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),  // Set the initial screen to SplashScreen
+      home: const SplashScreen(), // Set the initial screen to SplashScreen
     );
   }
 }
-
