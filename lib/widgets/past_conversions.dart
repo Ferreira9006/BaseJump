@@ -46,7 +46,10 @@ class PastConversions extends StatelessWidget {
             ),
 
             // Lista de conversões
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 110, // máximo que pode crescer
+              ),
               child: ListView.builder(
                 itemCount: conversions.length,
                 itemBuilder:
