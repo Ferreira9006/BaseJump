@@ -36,7 +36,7 @@ class PastConversions extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton.icon(
-                onPressed: () => onClear,
+                onPressed: onClear,
                 icon: const Icon(Icons.delete_sweep, color: Colors.white),
                 label: const Text(
                   "Limpar tudo",
